@@ -1,10 +1,26 @@
-%h1= @pic.title
-%p= @pic.description
-%p 
-    Foto por
-    = @pic.user.email
-%br
+#pic_show.row
+    .col-md-6.col-md-offset-3
+        .panel.panel-default
+            .panel.heading.pic_image
+                = image_tag @pic.image.url
 
-= link_to "Regresar", root_path
-= link_to "Editar", edit_pic_path
-= link_to "Eliminar", pic_path, method: :delete, data: { confirm: "¿Estas seguro?" }
+            .panel-body
+                %h1= @pic.title
+                %p= @pic.description
+
+            .panel-footer
+                .row
+                    .col-md-6
+                        %p.user
+                            Por
+                            = @pic.user.email
+
+                    .col-md-6
+                        .btn-group.pull-right
+                            = link_to like_pic_path(@pic), method: :put, class: 'btn btn-default' do
+                                %span.glyphicon.glyphicon-thumbs-up
+                                = @pic.get_upvotes.size
+
+                            - if user_signed_in?
+                                = link_to "Arreglar", edit_pic_path, class: 'btn btn-info'
+                                = link_to "Eliminar", pic_path, method: :delete, data: { confirm: "¿Estas seguro?" }, class: 'btn btn-danger'

@@ -1,5 +1,12 @@
-%h1 ¡Arregla tu foto!
+#edit_page.col-md-8.col-md-offset-2
+    .row
+        .panel.panel-default
+            .panel-heading
+                %h1 ¡Arregla tu foto!
 
-= render 'form'
+            .panel-body
+                .current_image
+                    %strong.center Ahora
+                    = image_tag @pic.image.url(:medium)
 
-= link_to "Cancelar", pic_path
+                = render 'form'

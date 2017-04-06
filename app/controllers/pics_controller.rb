@@ -1,5 +1,6 @@
 class PicsController < ApplicationController
-    before_filter :find_pic, except: [:index, :new, :create]
+    before_action :find_pic, except: [:index, :new, :create]
+    before_action :authenticate_user!, except: [:index, :show]
 
     def index
         @pics = Pic.all.order('created_at DESC')
@@ -32,9 +33,14 @@ class PicsController < ApplicationController
         redirect_to root_path, notice: "La foto ha sido eliminada"
     end
 
+    def upvote
+        @pic.upvote_by current_user
+        redirect_to :back
+    end
+
     private
         def pic_params
-            params.require(:pic).permit(:title, :description)
+            params.require(:pic).permit(:title, :description, :image)
         end
 
         def find_pic
